@@ -19,6 +19,10 @@ struct ContentView: View {
         self.connectIsDisabled = true
     }
     
+    private func onDisconnection() {
+        self.connectIsDisabled = false
+    }
+    
     var body: some View {
         VStack {
             Text("MQTT Test")
@@ -31,6 +35,10 @@ struct ContentView: View {
             Button("Send Default Message") {
                 mqttClient.publish(topic: defaultTopic, message: defaultMessage)
             }.disabled(!connectIsDisabled).padding()
+            Button("Disconnect") {
+                mqttClient.disconnect(onDisconnection)
+            }.disabled(!connectIsDisabled)
+            .padding()
         }
     }
 }

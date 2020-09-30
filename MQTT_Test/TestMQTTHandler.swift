@@ -69,6 +69,10 @@ class TestMQTTHandler: ObservableObject {
         
     }
     
+    public func disconnect(_ function:@escaping ()->Void) {
+        client.disconnect().whenSuccess(function)
+    }
+    
     public func publish(topic:String, message:String) {
         client.publish(
             topic: topic,
