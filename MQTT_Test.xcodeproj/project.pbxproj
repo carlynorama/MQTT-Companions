@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		D288D3BE2524DEF700CE9DF3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D288D3BD2524DEF700CE9DF3 /* Preview Assets.xcassets */; };
 		D288D3C92524DEF800CE9DF3 /* MQTT_TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3C82524DEF800CE9DF3 /* MQTT_TestTests.swift */; };
 		D288D3D42524DEF800CE9DF3 /* MQTT_TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3D32524DEF800CE9DF3 /* MQTT_TestUITests.swift */; };
+		D288D3E62524DF9B00CE9DF3 /* MQTTNIO in Frameworks */ = {isa = PBXBuildFile; productRef = D288D3E52524DF9B00CE9DF3 /* MQTTNIO */; };
+		D288D3EB2524E11600CE9DF3 /* TestMQTTHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,7 @@
 		D288D3CF2524DEF800CE9DF3 /* MQTT_TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MQTT_TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D288D3D32524DEF800CE9DF3 /* MQTT_TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTT_TestUITests.swift; sourceTree = "<group>"; };
 		D288D3D52524DEF800CE9DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMQTTHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D288D3E62524DF9B00CE9DF3 /* MQTTNIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +101,7 @@
 			children = (
 				D288D3B62524DEF700CE9DF3 /* MQTT_TestApp.swift */,
 				D288D3B82524DEF700CE9DF3 /* ContentView.swift */,
+				D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */,
 				D288D3BA2524DEF700CE9DF3 /* Assets.xcassets */,
 				D288D3BF2524DEF700CE9DF3 /* Info.plist */,
 				D288D3BC2524DEF700CE9DF3 /* Preview Content */,
@@ -146,6 +151,9 @@
 			dependencies = (
 			);
 			name = MQTT_Test;
+			packageProductDependencies = (
+				D288D3E52524DF9B00CE9DF3 /* MQTTNIO */,
+			);
 			productName = MQTT_Test;
 			productReference = D288D3B32524DEF700CE9DF3 /* MQTT_Test.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +225,9 @@
 				Base,
 			);
 			mainGroup = D288D3AA2524DEF700CE9DF3;
+			packageReferences = (
+				D288D3E42524DF9B00CE9DF3 /* XCRemoteSwiftPackageReference "mqtt-nio" */,
+			);
 			productRefGroup = D288D3B42524DEF700CE9DF3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,6 +272,7 @@
 			files = (
 				D288D3B92524DEF700CE9DF3 /* ContentView.swift in Sources */,
 				D288D3B72524DEF700CE9DF3 /* MQTT_TestApp.swift in Sources */,
+				D288D3EB2524E11600CE9DF3 /* TestMQTTHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +586,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D288D3E42524DF9B00CE9DF3 /* XCRemoteSwiftPackageReference "mqtt-nio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sroebert/mqtt-nio.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D288D3E52524DF9B00CE9DF3 /* MQTTNIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D288D3E42524DF9B00CE9DF3 /* XCRemoteSwiftPackageReference "mqtt-nio" */;
+			productName = MQTTNIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D288D3AB2524DEF700CE9DF3 /* Project object */;
 }
