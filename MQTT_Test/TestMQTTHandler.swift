@@ -10,10 +10,28 @@ import MQTTNIO
 import NIO  //Necessary for MultiThreadedEvenLoopGroup
 
 class TestMQTTHandler: ObservableObject {
-    @Published private var mqttClient:MQTTClient = createMQTTClient()
+    @Published private var client:MQTTClient
     
-    static func createMQTTClient() -> MQTTClient {
-        ///TODO: change to no require NIO import?
+    //@Published var isConnected:Bool = false
+    
+    init() {
+        client = TestMQTTHandler.createMQTTClient()
+        client.addConnectListener { _, response, _ in
+            print("Connected: \(response.returnCode)")
+        }
+        client.addDisconnectListener { _, reason, _ in
+            print("Disconnected: \(reason)")
+        }
+        client.addErrorListener { _, error, _ in
+            print("Error: \(error)")
+        }
+        client.addMessageListener { _, message, _ in
+            print("Received: \(message)")
+        }
+    }
+    
+    private class func createMQTTClient() -> MQTTClient {
+        ///TODO: change to no require NIO import? Is that even possible?
         let group = MultiThreadedEventLoopGroup(numberOfThreads: 2)
         
         let credentials = MQTTConfiguration.Credentials(
@@ -30,10 +48,35 @@ class TestMQTTHandler: ObservableObject {
             configuration: configuration,
             eventLoopGroup: group
         )
+        
         return client
     }
     
-    public func connect() {
-        mqttClient.connect()
-    }
+    
+    public func connect(_ function:@escaping ()->Void) {
+        client.connect().whenSuccess(function)
+        
+        client.subscribe(to: "try/#").whenComplete { result in
+            switch result {
+            case .success(.success):
+                print("Subscribed!")
+            case .success(.failure):
+                print("Server rejected")
+            case .failure:
+                print("Server did not respond")
+            }
+        }
+        
+//        else {
+//            mqttClient.publish(
+//                topic: "try/todtest/some/topic",
+//                payload: "Hello World!",
+//                qos: .exactlyOnce
+//            )
+//
+//        }
+        
+     }
+    
+
 }
