@@ -39,6 +39,8 @@ struct ContentView: View {
                 mqttClient.disconnect(onDisconnection)
             }.disabled(!connectIsDisabled)
             .padding()
+            Text("\(mqttClient.displayMessage)")
+            
         }
     }
 }

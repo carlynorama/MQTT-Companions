@@ -12,7 +12,7 @@ import NIO  //Necessary for MultiThreadedEvenLoopGroup
 class TestMQTTHandler: ObservableObject {
     @Published private var client:MQTTClient
     
-    //@Published var isConnected:Bool = false
+    @Published var displayMessage:String = "No Message Yet"
     
     init() {
         client = TestMQTTHandler.createMQTTClient()
@@ -27,6 +27,7 @@ class TestMQTTHandler: ObservableObject {
         }
         client.addMessageListener { _, message, _ in
             print("Received: \(message)")
+            self.messageRecieved(message)
         }
     }
     
@@ -80,5 +81,10 @@ class TestMQTTHandler: ObservableObject {
             qos: .exactlyOnce
         )
         .whenSuccess({print("Sent \(message)")})
+    }
+    
+    public func messageRecieved(_ message:MQTTMessage) {
+        self.displayMessage = "got a messageFrom \(message.topic)"
+        print(displayMessage)
     }
 }
