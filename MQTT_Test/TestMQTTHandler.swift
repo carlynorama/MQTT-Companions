@@ -67,16 +67,14 @@ class TestMQTTHandler: ObservableObject {
             }
         }
         
-//        else {
-//            mqttClient.publish(
-//                topic: "try/todtest/some/topic",
-//                payload: "Hello World!",
-//                qos: .exactlyOnce
-//            )
-//
-//        }
-        
-     }
+    }
     
-
+    public func publish(topic:String, message:String) {
+        client.publish(
+            topic: topic,
+            payload: message,
+            qos: .exactlyOnce
+        )
+        .whenSuccess({print("Sent \(message)")})
+    }
 }

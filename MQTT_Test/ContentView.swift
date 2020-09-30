@@ -12,17 +12,26 @@ struct ContentView: View {
     
     @State var connectIsDisabled = false
     
+    let defaultTopic = "try/test/swift"
+    let defaultMessage = "Hello World"
+    
     private func onConnection() {
         self.connectIsDisabled = true
     }
     
     var body: some View {
         VStack {
-            Text("Hello, World!")
+            Text("MQTT Test")
+                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .padding()
             Button("Connect") {
                 mqttClient.connect(onConnection)
             }.disabled(connectIsDisabled)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            Button("Send Default Message") {
+                mqttClient.publish(topic: defaultTopic, message: defaultMessage)
+            }.disabled(!connectIsDisabled).padding()
+        }
     }
 }
 
