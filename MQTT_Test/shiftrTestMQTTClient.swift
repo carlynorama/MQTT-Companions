@@ -15,10 +15,9 @@ class shiftrTestMQTTClient: ObservableObject {
     @Published var rootTopic = "try/test/swift"
     @Published var subscriptionTopic = "try/#"
     
-    @Published var status:String = "status messages"
+    @Published var statusMessage:String = "status messages"
     
     @Published var recievedMessageDisplay:String = "No Message Yet"
-    //@Published var outGoingMessage = ""
     
     init() {
         client = shiftrTestMQTTClient.createMQTTClient()
@@ -26,19 +25,19 @@ class shiftrTestMQTTClient: ObservableObject {
         client.addConnectListener { _, response, _ in
             print("Connected: \(response.returnCode)")
             DispatchQueue.main.async {
-                self.status = "Connected: \(response.returnCode)"
+                self.statusMessage = "Connected: \(response.returnCode)"
             }
         }
         client.addDisconnectListener { _, reason, _ in
             print("Disconnected: \(reason)")
             DispatchQueue.main.async {
-                self.status = "Disconnected: \(reason)"
+                self.statusMessage = "Disconnected: \(reason)"
             }
         }
         client.addErrorListener { _, error, _ in
             print("Error: \(error)")
             DispatchQueue.main.async {
-                self.status = "Error: \(error)"
+                self.statusMessage = "Error: \(error)"
             }
         }
         client.addMessageListener { _, message, _ in
@@ -94,7 +93,6 @@ class shiftrTestMQTTClient: ObservableObject {
         
         return (hostString, portString)
     }
-
     
     
     public func connect(_ function:@escaping ()->Void) {
@@ -105,11 +103,6 @@ class shiftrTestMQTTClient: ObservableObject {
     public func disconnect(_ function:@escaping ()->Void) {
         client.disconnect().whenSuccess(function)
     }
-    
-//    public func getConnectionStatus() {
-//        client.isConnected
-//        client.isConnecting
-//    }
     
     public func publish(topic:String, message:String) {
         client.publish(

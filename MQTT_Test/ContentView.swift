@@ -61,7 +61,7 @@ struct ContentView: View {
                     
                     
                 }
-                Text(mqttClient.status).font(.caption)
+                Text(mqttClient.statusMessage).font(.caption)
             }.frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
             
