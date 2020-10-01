@@ -10,15 +10,14 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var mqttClient:shiftrTestMQTTClient
     
-    @State var connectIsDisabled = false
     @State var slider1 = 127.5
     @State var slider2 = 127.5
     @State var textField = ""
     
     let slider1Topic = "slider1"
     let slider2Topic = "slider2"
-    let minVal = 0.0
-    let maxVal = 255.0
+    let minVal:Double = 0
+    let maxVal:Double = 255
     let textFieldTopic = "text"
     
     func sendSlider2Message(_ sendFlag:Bool) {
@@ -27,11 +26,11 @@ struct ContentView: View {
     }
     
     private func onConnection() {
-        self.connectIsDisabled = true
+        //can put UI behaviors that should being on connection here, happens on main
     }
     
     private func onDisconnection() {
-        self.connectIsDisabled = false
+        //can put UI behaviors that should being on disconnection here, happens on main
     }
     
     var body: some View {
@@ -50,12 +49,12 @@ struct ContentView: View {
                     
                     Button(action: {mqttClient.connect(onConnection)}) {
                         Image(systemName: "arrow.up.arrow.down.square.fill")//.resizable().aspectRatio(contentMode: .fit)
-                    }.disabled(connectIsDisabled)
+                    }.disabled(mqttClient.status)
                     .padding()
                     
                     Button(action: {mqttClient.disconnect(onDisconnection)}) {
                         Image(systemName: "xmark.square")//.resizable().aspectRatio(contentMode: .fit)
-                    }.disabled(!connectIsDisabled)
+                    }.disabled(!mqttClient.status)
                     //.padding()
                     
                     
@@ -82,7 +81,7 @@ struct ContentView: View {
                             self.slider1 = newValue
                             mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.slider1Topic)", message: "\(Int(slider1))")
                         }
-                    ), in: 0...255)
+                    ), in: minVal...maxVal).disabled(!mqttClient.status)
                     HStack {
                         Spacer()
                         Text("(sends conintuously)").font(.caption)
@@ -97,29 +96,29 @@ struct ContentView: View {
                     }
                     Slider(
                         value: $slider2,
-                        in: 0...255,
-                        onEditingChanged: sendSlider2Message )
+                        in: minVal...maxVal,
+                        onEditingChanged: sendSlider2Message ).disabled(!mqttClient.status)
                     
                     HStack {
                         Spacer()
                         Text("(sends on release)").font(.caption)
                     }
                 }
- 
+                
             } .frame(maxWidth: .infinity, alignment: .topLeading)
-            .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+            .foregroundColor(!mqttClient.status ? .secondary:.primary)
             .padding()
             
             Divider()
             
             VStack(alignment: .leading) {
                 Text("topic: \(mqttClient.rootTopic)/\(self.textFieldTopic)")
-                TextField("Type message to send", text: $textField).disabled(!connectIsDisabled)
+                TextField("Type message to send", text: $textField).disabled(!mqttClient.status)
                 HStack {
                     Spacer()
                     Button("Send Message") {
                         mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.textFieldTopic)", message: textField)
-                    }.disabled(!connectIsDisabled)
+                    }.disabled(!mqttClient.status)
                     .padding()
                 }
                 HStack {
@@ -127,7 +126,7 @@ struct ContentView: View {
                     Text("(sends on button press example)").font(.caption)
                 }
             } .frame(maxWidth: .infinity, alignment: .topLeading)
-            .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+            .foregroundColor(!mqttClient.status ? .secondary:.primary)
             .padding()
             
             
@@ -140,7 +139,7 @@ struct ContentView: View {
                 
                 Spacer()
             }
-            .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+            .foregroundColor(!mqttClient.status ? .secondary:.primary)
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
             

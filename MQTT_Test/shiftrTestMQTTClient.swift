@@ -16,6 +16,7 @@ class shiftrTestMQTTClient: ObservableObject {
     @Published var subscriptionTopic = "try/#"
     
     @Published var statusMessage:String = "status messages"
+    @Published var status:Bool = false
     
     @Published var recievedMessageDisplay:String = "No Message Yet"
     
@@ -26,12 +27,14 @@ class shiftrTestMQTTClient: ObservableObject {
             print("Connected: \(response.returnCode)")
             DispatchQueue.main.async {
                 self.statusMessage = "Connected: \(response.returnCode)"
+                self.status = true
             }
         }
         client.addDisconnectListener { _, reason, _ in
             print("Disconnected: \(reason)")
             DispatchQueue.main.async {
                 self.statusMessage = "Disconnected: \(reason)"
+                self.status = false
             }
         }
         client.addErrorListener { _, error, _ in
