@@ -43,19 +43,25 @@ struct ContentView: View {
             
             Divider()
             
-            HStack {
-                Text("\(mqttClient.host)").layoutPriority(1)
-                Spacer()
-                Button(action: {mqttClient.connect(onConnection)}) {
-                    Image(systemName: "arrow.up.arrow.down.square.fill")//.resizable().aspectRatio(contentMode: .fit)
-                }.disabled(connectIsDisabled)
-                .padding()
-                
-                Button(action: {mqttClient.disconnect(onDisconnection)}) {
-                    Image(systemName: "xmark.square")//.resizable().aspectRatio(contentMode: .fit)
-                }.disabled(!connectIsDisabled)
-                //.padding()
-                
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("\(mqttClient.host)").layoutPriority(1)
+                    Spacer()
+                    
+                    Button(action: {mqttClient.connect(onConnection)}) {
+                        Image(systemName: "arrow.up.arrow.down.square.fill")//.resizable().aspectRatio(contentMode: .fit)
+                    }.disabled(connectIsDisabled)
+                    .padding()
+                    
+                    Button(action: {mqttClient.disconnect(onDisconnection)}) {
+                        Image(systemName: "xmark.square")//.resizable().aspectRatio(contentMode: .fit)
+                    }.disabled(!connectIsDisabled)
+                    //.padding()
+                    
+                    
+                    
+                }
+                Text(mqttClient.status).font(.caption)
             }.frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
             

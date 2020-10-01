@@ -13,6 +13,9 @@ class TestMQTTHandler: ObservableObject {
     @Published private var client:MQTTClient
     
     @Published var rootTopic = "try/test/swift"
+    @Published var subscriptionTopic = "try/#"
+    
+    @Published var status:String = "status messages"
     
     @Published var recievedMessageDisplay:String = "No Message Yet"
     //@Published var outGoingMessage = ""
@@ -22,12 +25,21 @@ class TestMQTTHandler: ObservableObject {
         
         client.addConnectListener { _, response, _ in
             print("Connected: \(response.returnCode)")
+            DispatchQueue.main.async {
+                self.status = "Connected: \(response.returnCode)"
+            }
         }
         client.addDisconnectListener { _, reason, _ in
             print("Disconnected: \(reason)")
+            DispatchQueue.main.async {
+                self.status = "Disconnected: \(reason)"
+            }
         }
         client.addErrorListener { _, error, _ in
             print("Error: \(error)")
+            DispatchQueue.main.async {
+                self.status = "Error: \(error)"
+            }
         }
         client.addMessageListener { _, message, _ in
             print("Received: \(message)")
@@ -88,7 +100,7 @@ class TestMQTTHandler: ObservableObject {
     public func connect(_ function:@escaping ()->Void) {
         client.connect().whenSuccess(function)
         
-        client.subscribe(to: "try/#").whenComplete { result in
+        client.subscribe(to: subscriptionTopic).whenComplete { result in
             switch result {
             case .success(.success):
                 print("Subscribed!")
@@ -116,6 +128,6 @@ class TestMQTTHandler: ObservableObject {
     
     public func messageRecieved(_ message:MQTTMessage) {
         self.recievedMessageDisplay = "got a messageFrom \(message.topic), it says \(message.payloadString ?? "something I can't read")"
-        print(recievedMessageDisplay)
+        //print(recievedMessageDisplay)
     }
 }
