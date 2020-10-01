@@ -11,10 +11,8 @@ struct ContentView: View {
     @ObservedObject var mqttClient:TestMQTTHandler
     
     @State var connectIsDisabled = false
-    @State var slider1 = 0.5
-
-    
-    @State var slider2 = 0.5
+    @State var slider1 = 127.5
+    @State var slider2 = 127.5
     @State var textField = ""
     
     let slider1Topic = "slider1"
@@ -22,6 +20,11 @@ struct ContentView: View {
     let minVal = 0.0
     let maxVal = 255.0
     let textFieldTopic = "text"
+    
+    func sendSlider2Message(_ sendFlag:Bool) {
+        let topic = "\(mqttClient.rootTopic)/\(self.slider2Topic)"
+        self.mqttClient.publish(topic: topic , message: "\(Int(slider2))")
+    }
     
     private func onConnection() {
         self.connectIsDisabled = true
@@ -55,35 +58,48 @@ struct ContentView: View {
                 
             }.frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
-        
+            
             Divider()
             
             VStack(alignment: .leading) {
-                HStack {
-                    Text("topic: \(mqttClient.rootTopic)/\(self.slider1Topic)")
-                    Spacer()
-                    Text("\(Int(slider1))")
-                }
-                Slider(value: Binding(
-                    get: {
-                        self.slider1
-                    },
-                    set: {(newValue) in
-                          self.slider1 = newValue
-                        mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.slider1Topic)", message: "\(slider1)")
+                VStack {
+                    HStack {
+                        Text("topic: \(mqttClient.rootTopic)/\(self.slider1Topic)")
+                        Spacer()
+                        Text("\(Int(slider1))")
                     }
-                ), in: 0...255)
-                HStack {
-                    Text("topic: \(mqttClient.rootTopic)/\(self.slider2Topic)")
-                    Spacer()
-                    Text("\(Int(slider2))")
+                    Slider(value: Binding(
+                        get: {
+                            self.slider1
+                        },
+                        set: {(newValue) in
+                            self.slider1 = newValue
+                            mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.slider1Topic)", message: "\(Int(slider1))")
+                        }
+                    ), in: 0...255)
+                    HStack {
+                        Spacer()
+                        Text("(sends conintuously)").font(.caption)
+                    }
                 }
-                Slider(value: $slider2, in: 0...255)
                 Spacer()
-                HStack {
-                    Spacer()
-                    Text("(sends on update example)").font(.caption)
+                VStack {
+                    HStack {
+                        Text("topic: \(mqttClient.rootTopic)/\(self.slider2Topic)")
+                        Spacer()
+                        Text("\(Int(slider2))")
+                    }
+                    Slider(
+                        value: $slider2,
+                        in: 0...255,
+                        onEditingChanged: sendSlider2Message )
+                    
+                    HStack {
+                        Spacer()
+                        Text("(sends on release)").font(.caption)
+                    }
                 }
+ 
             } .frame(maxWidth: .infinity, alignment: .topLeading)
             .foregroundColor(!connectIsDisabled ? .secondary:.primary)
             .padding()
@@ -93,10 +109,13 @@ struct ContentView: View {
             VStack(alignment: .leading) {
                 Text("topic: \(mqttClient.rootTopic)/\(self.textFieldTopic)")
                 TextField("Type message to send", text: $textField).disabled(!connectIsDisabled)
-                Button("Send Message") {
-                    mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.textFieldTopic)", message: textField)
-                }.disabled(!connectIsDisabled)
-                Spacer()
+                HStack {
+                    Spacer()
+                    Button("Send Message") {
+                        mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.textFieldTopic)", message: textField)
+                    }.disabled(!connectIsDisabled)
+                    .padding()
+                }
                 HStack {
                     Spacer()
                     Text("(sends on button press example)").font(.caption)
