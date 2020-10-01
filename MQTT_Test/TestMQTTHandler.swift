@@ -11,7 +11,11 @@ import NIO  //Necessary for MultiThreadedEvenLoopGroup
 
 class TestMQTTHandler: ObservableObject {
     @Published private var client:MQTTClient
-    @Published var displayMessage:String = "No Message Yet"
+    
+    @Published var currentTopic = "try/test/swift"
+    
+    @Published var recievedMessageDisplay:String = "No Message Yet"
+    @Published var outGoingMessage = ""
     
     init() {
         client = TestMQTTHandler.createMQTTClient()
@@ -111,7 +115,7 @@ class TestMQTTHandler: ObservableObject {
     }
     
     public func messageRecieved(_ message:MQTTMessage) {
-        self.displayMessage = "got a messageFrom \(message.topic), it says \(message.payloadString ?? "something I can't read")"
-        print(displayMessage)
+        self.recievedMessageDisplay = "got a messageFrom \(message.topic), it says \(message.payloadString ?? "something I can't read")"
+        print(recievedMessageDisplay)
     }
 }

@@ -11,13 +11,6 @@ struct ContentView: View {
     @ObservedObject var mqttClient:TestMQTTHandler
     
     @State var connectIsDisabled = false
-    @State var messageField:String = ""
-    
-    let currentTopic = "try/test/swift"
-    let currentMessageToGoOut = "Hello World"
-    
-    
-//    let reallyLongMessage = "Who put the bop in the bop she-bop? Oh who put the bop in the bop-she-bop-yah"
     
     private func onConnection() {
         self.connectIsDisabled = true
@@ -33,7 +26,9 @@ struct ContentView: View {
             Text("MQTT Test")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .padding()
+            
             Divider()
+            
             HStack {
                 Text("\(mqttClient.host)")
                 Button("C") {
@@ -45,11 +40,14 @@ struct ContentView: View {
                 }.disabled(!connectIsDisabled)
                 .padding()
             }
+            
             Divider()
+            
             VStack {
-                TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $messageField)
+                Text("topic: \(mqttClient.currentTopic)")
+                TextField("Placeholder", text: $mqttClient.outGoingMessage)
                 Button("Send Message") {
-                    mqttClient.publish(topic: currentTopic, message: currentMessageToGoOut)
+                    mqttClient.publish(topic: mqttClient.currentTopic, message: mqttClient.outGoingMessage)
                 }.disabled(!connectIsDisabled)
                 
             }.padding()
@@ -57,7 +55,7 @@ struct ContentView: View {
             Divider()
             VStack {
                 Text("Messages Recieved")
-                Text("\(mqttClient.displayMessage)")
+                Text("\(mqttClient.recievedMessageDisplay)")
                     .font(.caption)
                     .foregroundColor(!connectIsDisabled ? .secondary:.primary)
                     .padding()
