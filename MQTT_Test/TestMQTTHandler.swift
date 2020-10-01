@@ -12,10 +12,10 @@ import NIO  //Necessary for MultiThreadedEvenLoopGroup
 class TestMQTTHandler: ObservableObject {
     @Published private var client:MQTTClient
     
-    @Published var currentTopic = "try/test/swift"
+    @Published var rootTopic = "try/test/swift"
     
     @Published var recievedMessageDisplay:String = "No Message Yet"
-    @Published var outGoingMessage = ""
+    //@Published var outGoingMessage = ""
     
     init() {
         client = TestMQTTHandler.createMQTTClient()
