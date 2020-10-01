@@ -11,7 +11,7 @@ import SwiftUI
 struct MQTT_TestApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(mqttClient: TestMQTTHandler())
+            ContentView(mqttClient: shiftrTestMQTTClient())
         }
     }
 }
