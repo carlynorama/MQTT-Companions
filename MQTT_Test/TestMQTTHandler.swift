@@ -27,7 +27,9 @@ class TestMQTTHandler: ObservableObject {
         }
         client.addMessageListener { _, message, _ in
             print("Received: \(message)")
-            self.messageRecieved(message)
+            DispatchQueue.main.async {
+                self.messageRecieved(message)
+            }
         }
     }
     
