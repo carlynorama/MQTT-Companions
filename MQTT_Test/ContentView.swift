@@ -40,6 +40,9 @@ struct ContentView: View {
             }.disabled(!connectIsDisabled)
             .padding()
             Text("\(mqttClient.displayMessage)")
+                .font(.caption)
+                .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+                .padding()
             
         }
     }

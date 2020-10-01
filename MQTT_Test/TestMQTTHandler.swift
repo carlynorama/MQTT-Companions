@@ -86,7 +86,7 @@ class TestMQTTHandler: ObservableObject {
     }
     
     public func messageRecieved(_ message:MQTTMessage) {
-        self.displayMessage = "got a messageFrom \(message.topic)"
+        self.displayMessage = "got a messageFrom \(message.topic), it says \(message.payloadString ?? "something I can't read")"
         print(displayMessage)
     }
 }
