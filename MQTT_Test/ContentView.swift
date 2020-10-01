@@ -57,7 +57,7 @@ struct ContentView: View {
                         
                     }) {
                         if mqttClient.status {
-                            Text("Diconnect")
+                            Text("Disconnect")
                         } else {
                             Text("Connect")
                         }
@@ -133,7 +133,7 @@ struct ContentView: View {
                 }
                 HStack {
                     Spacer()
-                    Text("(sends on button press example)").font(.caption).foregroundColor(!mqttClient.status ? .secondary:.primary)
+                    Text("(sends on button press)").font(.caption).foregroundColor(!mqttClient.status ? .secondary:.primary)
                 }
             } .frame(maxWidth: .infinity, alignment: .topLeading)
             .foregroundColor(!mqttClient.status ? .secondary:.primary)
