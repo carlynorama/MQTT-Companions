@@ -45,17 +45,26 @@ struct ContentView: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text("\(mqttClient.host)").layoutPriority(1)
+                    Image(systemName: "arrow.up.arrow.down.square.fill").foregroundColor(mqttClient.status ? .accentColor:.secondary)
                     Spacer()
                     
-                    Button(action: {mqttClient.connect(onConnection)}) {
-                        Image(systemName: "arrow.up.arrow.down.square.fill")//.resizable().aspectRatio(contentMode: .fit)
-                    }.disabled(mqttClient.status)
+                    Button(action: {
+                        if mqttClient.status {
+                            mqttClient.disconnect(onDisconnection)
+                        } else {
+                            mqttClient.connect(onConnection)
+                        }
+                        
+                    }) {
+                        if mqttClient.status {
+                            Text("Diconnect")
+                        } else {
+                            Text("Connect")
+                        }
+                        
+                    }
                     .padding()
                     
-                    Button(action: {mqttClient.disconnect(onDisconnection)}) {
-                        Image(systemName: "xmark.square")//.resizable().aspectRatio(contentMode: .fit)
-                    }.disabled(!mqttClient.status)
-                    //.padding()
                     
                     
                     
@@ -119,11 +128,12 @@ struct ContentView: View {
                     Button("Send Message") {
                         mqttClient.publish(topic: "\(mqttClient.rootTopic)/\(self.textFieldTopic)", message: textField)
                     }.disabled(!mqttClient.status)
+                    .foregroundColor(mqttClient.status ? .accentColor:.secondary)
                     .padding()
                 }
                 HStack {
                     Spacer()
-                    Text("(sends on button press example)").font(.caption)
+                    Text("(sends on button press example)").font(.caption).foregroundColor(!mqttClient.status ? .secondary:.primary)
                 }
             } .frame(maxWidth: .infinity, alignment: .topLeading)
             .foregroundColor(!mqttClient.status ? .secondary:.primary)
