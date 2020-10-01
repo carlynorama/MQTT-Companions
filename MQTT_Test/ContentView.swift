@@ -12,8 +12,10 @@ struct ContentView: View {
     
     @State var connectIsDisabled = false
     
-    let defaultTopic = "try/test/swift"
-    let defaultMessage = "Hello World"
+    let currentTopic = "try/test/swift"
+    let currentOutGoingMessage = "Hello World"
+    
+//    let reallyLongMessage = "Who put the bop in the bop she-bop? Oh who put the bop in the bop-she-bop-yah"
     
     private func onConnection() {
         self.connectIsDisabled = true
@@ -33,7 +35,7 @@ struct ContentView: View {
             }.disabled(connectIsDisabled)
             .padding()
             Button("Send Default Message") {
-                mqttClient.publish(topic: defaultTopic, message: defaultMessage)
+                mqttClient.publish(topic: currentTopic, message: currentOutGoingMessage)
             }.disabled(!connectIsDisabled).padding()
             Button("Disconnect") {
                 mqttClient.disconnect(onDisconnection)
