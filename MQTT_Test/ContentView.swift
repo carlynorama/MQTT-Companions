@@ -11,9 +11,11 @@ struct ContentView: View {
     @ObservedObject var mqttClient:TestMQTTHandler
     
     @State var connectIsDisabled = false
+    @State var messageField:String = ""
     
     let currentTopic = "try/test/swift"
-    let currentOutGoingMessage = "Hello World"
+    let currentMessageToGoOut = "Hello World"
+    
     
 //    let reallyLongMessage = "Who put the bop in the bop she-bop? Oh who put the bop in the bop-she-bop-yah"
     
@@ -27,25 +29,40 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            
             Text("MQTT Test")
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .padding()
-            Button("Connect") {
-                mqttClient.connect(onConnection)
-            }.disabled(connectIsDisabled)
-            .padding()
-            Button("Send Default Message") {
-                mqttClient.publish(topic: currentTopic, message: currentOutGoingMessage)
-            }.disabled(!connectIsDisabled).padding()
-            Button("Disconnect") {
-                mqttClient.disconnect(onDisconnection)
-            }.disabled(!connectIsDisabled)
-            .padding()
-            Text("\(mqttClient.displayMessage)")
-                .font(.caption)
-                .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+            Divider()
+            HStack {
+                Text("\(mqttClient.host)")
+                Button("C") {
+                    mqttClient.connect(onConnection)
+                }.disabled(connectIsDisabled)
                 .padding()
+                Button("D") {
+                    mqttClient.disconnect(onDisconnection)
+                }.disabled(!connectIsDisabled)
+                .padding()
+            }
+            Divider()
+            VStack {
+                TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $messageField)
+                Button("Send Message") {
+                    mqttClient.publish(topic: currentTopic, message: currentMessageToGoOut)
+                }.disabled(!connectIsDisabled)
+                
+            }.padding()
             
+            Divider()
+            VStack {
+                Text("Messages Recieved")
+                Text("\(mqttClient.displayMessage)")
+                    .font(.caption)
+                    .foregroundColor(!connectIsDisabled ? .secondary:.primary)
+                    .padding()
+            }
+
         }
     }
 }

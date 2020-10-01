@@ -11,11 +11,11 @@ import NIO  //Necessary for MultiThreadedEvenLoopGroup
 
 class TestMQTTHandler: ObservableObject {
     @Published private var client:MQTTClient
-    
     @Published var displayMessage:String = "No Message Yet"
     
     init() {
         client = TestMQTTHandler.createMQTTClient()
+        
         client.addConnectListener { _, response, _ in
             print("Connected: \(response.returnCode)")
         }
@@ -54,6 +54,31 @@ class TestMQTTHandler: ObservableObject {
         
         return client
     }
+    
+    
+    var host:String {
+        let hostparts = getHostStrings()
+        return "\(hostparts.host) : \(hostparts.port)"
+    }
+    
+    private func getHostStrings() -> (host: String, port: String){
+        let results = "\(client.configuration.target)".components(separatedBy: ", port:")
+        var hostString:String = results[0]
+        var portString:String = results[1]
+        
+        let prefix = "host(\""
+        if hostString.hasPrefix(prefix) {
+            hostString =  String(hostString.dropFirst(prefix.count))
+        }
+        
+        hostString = hostString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        
+        let set = CharacterSet(charactersIn: "0123456789")
+        portString = portString.components(separatedBy: set.inverted).joined()
+        
+        return (hostString, portString)
+    }
+
     
     
     public func connect(_ function:@escaping ()->Void) {
