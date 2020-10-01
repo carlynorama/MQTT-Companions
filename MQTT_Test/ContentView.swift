@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var mqttClient:TestMQTTHandler
+    @ObservedObject var mqttClient:shiftrTestMQTTClient
     
     @State var connectIsDisabled = false
     @State var slider1 = 127.5
@@ -152,6 +152,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(mqttClient: TestMQTTHandler())
+        ContentView(mqttClient: shiftrTestMQTTClient())
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import MQTTNIO
 import NIO  //Necessary for MultiThreadedEvenLoopGroup
 
-class TestMQTTHandler: ObservableObject {
+class shiftrTestMQTTClient: ObservableObject {
     @Published private var client:MQTTClient
     
     @Published var rootTopic = "try/test/swift"
@@ -21,7 +21,7 @@ class TestMQTTHandler: ObservableObject {
     //@Published var outGoingMessage = ""
     
     init() {
-        client = TestMQTTHandler.createMQTTClient()
+        client = shiftrTestMQTTClient.createMQTTClient()
         
         client.addConnectListener { _, response, _ in
             print("Connected: \(response.returnCode)")
@@ -60,7 +60,7 @@ class TestMQTTHandler: ObservableObject {
         let configuration = MQTTConfiguration(
             target: .host("broker.shiftr.io", port: 1883),
             tls: nil,
-            clientId: "swiftShiftr",
+            clientId: "swiftShiftr.\(UUID())",
             credentials: credentials
         )
         let client = MQTTClient(
@@ -99,8 +99,29 @@ class TestMQTTHandler: ObservableObject {
     
     public func connect(_ function:@escaping ()->Void) {
         client.connect().whenSuccess(function)
-        
-        client.subscribe(to: subscriptionTopic).whenComplete { result in
+        self.subscribe(subscriptionTopic)
+    }
+    
+    public func disconnect(_ function:@escaping ()->Void) {
+        client.disconnect().whenSuccess(function)
+    }
+    
+//    public func getConnectionStatus() {
+//        client.isConnected
+//        client.isConnecting
+//    }
+    
+    public func publish(topic:String, message:String) {
+        client.publish(
+            topic: topic,
+            payload: message,
+            qos: .exactlyOnce
+        )
+        .whenSuccess({print("Sent \(message)")})
+    }
+    
+    public func subscribe(_ topic:String) {
+        client.subscribe(to: topic).whenComplete { result in
             switch result {
             case .success(.success):
                 print("Subscribed!")
@@ -110,20 +131,17 @@ class TestMQTTHandler: ObservableObject {
                 print("Server did not respond")
             }
         }
-        
     }
     
-    public func disconnect(_ function:@escaping ()->Void) {
-        client.disconnect().whenSuccess(function)
-    }
-    
-    public func publish(topic:String, message:String) {
-        client.publish(
-            topic: topic,
-            payload: message,
-            qos: .exactlyOnce
-        )
-        .whenSuccess({print("Sent \(message)")})
+    public func unsubscribe(_ topic:String) {
+        client.unsubscribe(from: topic).whenComplete { result in
+            switch result {
+            case .success:
+                print("Unsubscribed!")
+            case .failure:
+                print("Server did not respond")
+            }
+        }
     }
     
     public func messageRecieved(_ message:MQTTMessage) {

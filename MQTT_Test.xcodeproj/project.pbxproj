@@ -14,7 +14,7 @@
 		D288D3C92524DEF800CE9DF3 /* MQTT_TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3C82524DEF800CE9DF3 /* MQTT_TestTests.swift */; };
 		D288D3D42524DEF800CE9DF3 /* MQTT_TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3D32524DEF800CE9DF3 /* MQTT_TestUITests.swift */; };
 		D288D3E62524DF9B00CE9DF3 /* MQTTNIO in Frameworks */ = {isa = PBXBuildFile; productRef = D288D3E52524DF9B00CE9DF3 /* MQTTNIO */; };
-		D288D3EB2524E11600CE9DF3 /* TestMQTTHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */; };
+		D288D3EB2524E11600CE9DF3 /* shiftrTestMQTTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D288D3EA2524E11600CE9DF3 /* shiftrTestMQTTClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,7 @@
 		D288D3CF2524DEF800CE9DF3 /* MQTT_TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MQTT_TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D288D3D32524DEF800CE9DF3 /* MQTT_TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTT_TestUITests.swift; sourceTree = "<group>"; };
 		D288D3D52524DEF800CE9DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMQTTHandler.swift; sourceTree = "<group>"; };
+		D288D3EA2524E11600CE9DF3 /* shiftrTestMQTTClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shiftrTestMQTTClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 			children = (
 				D288D3B62524DEF700CE9DF3 /* MQTT_TestApp.swift */,
 				D288D3B82524DEF700CE9DF3 /* ContentView.swift */,
-				D288D3EA2524E11600CE9DF3 /* TestMQTTHandler.swift */,
+				D288D3EA2524E11600CE9DF3 /* shiftrTestMQTTClient.swift */,
 				D288D3BA2524DEF700CE9DF3 /* Assets.xcassets */,
 				D288D3BF2524DEF700CE9DF3 /* Info.plist */,
 				D288D3BC2524DEF700CE9DF3 /* Preview Content */,
@@ -272,7 +272,7 @@
 			files = (
 				D288D3B92524DEF700CE9DF3 /* ContentView.swift in Sources */,
 				D288D3B72524DEF700CE9DF3 /* MQTT_TestApp.swift in Sources */,
-				D288D3EB2524E11600CE9DF3 /* TestMQTTHandler.swift in Sources */,
+				D288D3EB2524E11600CE9DF3 /* shiftrTestMQTTClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
