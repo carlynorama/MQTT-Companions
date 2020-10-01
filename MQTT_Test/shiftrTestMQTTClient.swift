@@ -41,6 +41,7 @@ class shiftrTestMQTTClient: ObservableObject {
             print("Error: \(error)")
             DispatchQueue.main.async {
                 self.statusMessage = "Error: \(error)"
+                self.status = self.client.isConnected
             }
         }
         client.addMessageListener { _, message, _ in
