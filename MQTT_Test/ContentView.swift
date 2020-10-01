@@ -132,11 +132,12 @@ struct ContentView: View {
                 Text("\(mqttClient.recievedMessageDisplay)")
                     .font(.caption)
                 
-                
+                Spacer()
             }
             .foregroundColor(!connectIsDisabled ? .secondary:.primary)
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding()
+            
             
         }
     }
