@@ -26,4 +26,7 @@ The package has no additional system dependencies.
 
 ## Arduino App
 
-https://github.com/tigoe/mqtt-examples
+The Arduino app is developed from examples by Tom Igoe.
+
+- https://github.com/tigoe/mqtt-examples
+- https://github.com/tigoe/mqtt-examples/tree/master/MqttClientButtonLed
