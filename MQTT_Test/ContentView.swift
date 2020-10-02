@@ -93,7 +93,7 @@ struct ContentView: View {
                     ), in: minVal...maxVal).disabled(!mqttClient.status)
                     HStack {
                         Spacer()
-                        Text("(sends conintuously)").font(.caption)
+                        Text("(sends continuously)").font(.caption)
                     }
                 }
                 Spacer()
