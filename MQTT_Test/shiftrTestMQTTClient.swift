@@ -76,12 +76,12 @@ class shiftrTestMQTTClient: ObservableObject {
     
     
     var host:String {
-        let hostparts = getHostStrings()
+        let hostparts = getHostStrings(target: self.client.configuration.target)
         return "\(hostparts.host) : \(hostparts.port)"
     }
     
-    private func getHostStrings() -> (host: String, port: String){
-        let results = "\(client.configuration.target)".components(separatedBy: ", port:")
+    private func getHostStrings(target:MQTTConfiguration.Target) -> (host: String, port: String){
+        let results = "\(target)".components(separatedBy: ", port:")
         var hostString:String = results[0]
         var portString:String = results[1]
         
