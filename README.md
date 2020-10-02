@@ -1,4 +1,4 @@
-#MQTT Companions
+# MQTT Companions
 
 This repo contains two projects that speak to each other via the MQTT Protocol
 
